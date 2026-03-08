@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam seriálů</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body.light-mode { background-color: #f0f0f0 !important; color: #1a1a1a !important; }
+        body.light-mode header { background-color: #fff; }
+        body.light-mode .nav-button { border-color: #1a1a1a; color: #1a1a1a; }
+        body.light-mode .card { border-color: #ccc; background: #fff; }
+        body.light-mode .info-bar { background: #eee; color: #000; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="logo.png" alt="Logo" style="height: 50px; display: block;"></a>
+        </div>
+        <h1>Seznam seriálů</h1>
+        <nav>
+            <button class="btn-rezim" onclick="toggleMode()">Změna režimu</button>
+            <a href="/admin.html" class="nav-button">přidat/upravit</a>
+        </nav>
+    </header>
+
+    <div class="filter-section">
+        <input type="text" id="search" placeholder="Hledat seriál..." oninput="loadShows()">
+    </div>
+
+    <main id="series-grid" class="grid"></main>
+
+    <script>
+        async function loadShows() {
+            const search = document.getElementById('search').value;
+            const res = await fetch(`/items?search=${search}`);
+            const data = await res.json();
+            const grid = document.getElementById('series-grid');
+            grid.innerHTML = data.map(s => `
+                <div class="card">
+                    <img src="${s.image}" alt="${s.nazev}">
+                    <div class="info-bar">
+                        <div><span>Série</span><br>${s.pocetSerii}</div>
+                        <div><span>Epizody</span><br>${s.pocetEpizod}</div>
+                        <div><span>IMDb</span><br>${s.imdb}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        }
+
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+        loadShows();
+    </script>
+</body>
+</html>

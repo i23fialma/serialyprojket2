@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Správa seriálů</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body.light-mode { background-color: #f0f0f0; color: #1a1a1a; }
+        body.light-mode .admin-container { background: #fff; border: 1px solid #ccc; }
+        body.light-mode input { background: #fff; color: #000; border: 1px solid #ccc; }
+        body.light-mode .show-item { background: #eee; border-left: 5px solid red; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="logo.png" alt="Logo" style="height: 50px; display: block;"></a>
+        </div>
+        <h2 id="form-title" style="margin: 0;">Přidat nový</h2>
+        <div>
+            <button class="btn-rezim" onclick="toggleMode()">Změna režimu</button>
+            <a href="/" class="nav-button">Zpět na hlavní web</a>
+        </div>
+    </header>
+
+    <div class="admin-container" style="max-width: 800px; margin: 20px auto; background: #111; padding: 30px; border: 1px solid #333;">
+        <form id="serial-form" action="/items" method="POST" style="display: grid; gap: 15px;">
+            <input type="text" name="nazev" id="f-nazev" placeholder="Název" required>
+            <input type="text" name="image" id="f-image" placeholder="URL obrázku" required>
+            <input type="number" name="pocetSerii" id="f-serie" placeholder="Série">
+            <input type="number" name="pocetEpizod" id="f-epizody" placeholder="Epizody">
+            <input type="text" name="imdb" id="f-imdb" placeholder="IMDb">
+            <button type="submit" id="submit-btn" style="background: red; color: white; padding: 12px; border: none; cursor: pointer; font-weight: bold;">ULOŽIT</button>
+            <button type="button" onclick="resetForm()" id="cancel-btn" style="display:none; background: #555; color: white; padding: 12px; border: none;">ZRUŠIT</button>
+        </form>
+        <hr style="border: 0; border-top: 1px solid #333; margin: 30px 0;">
+        <div id="admin-list"></div>
+    </div>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        }
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+
+        async function load() {
+            const res = await fetch('/items');
+            const data = await res.json();
+            document.getElementById('admin-list').innerHTML = data.map(s => `
+                <div class="show-item" style="background: #222; border-left: 5px solid red; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div><b>${s.nazev}</b><br><small>IMDb: ${s.imdb}</small></div>
+                    <div>
+                        <button onclick='fillEdit(${JSON.stringify(s)})'>Upravit</button>
+                        <form action="/delete/${s.id}" method="POST" style="display:inline;">
+                            <button type="submit" style="color:red">Smazat</button>
+                        </form>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function fillEdit(s) {
+            document.getElementById('form-title').innerText = "Upravit: " + s.nazev;
+            document.getElementById('serial-form').action = "/edit/" + s.id;
+            document.getElementById('f-nazev').value = s.nazev;
+            document.getElementById('f-image').value = s.image;
+            document.getElementById('f-serie').value = s.pocetSerii;
+            document.getElementById('f-epizody').value = s.pocetEpizod;
+            document.getElementById('f-imdb').value = s.imdb;
+            document.getElementById('cancel-btn').style.display = "inline";
+            window.scrollTo(0,0);
+        }
+
+        function resetForm() { location.reload(); }
+        load();
+    </script>
+</body>
+</html>

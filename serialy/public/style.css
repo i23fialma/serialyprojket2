@@ -1,0 +1,155 @@
+body { 
+    background-color: #1a1a1a; 
+    color: white; 
+    font-family: sans-serif; 
+    margin: 0; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+body.light-mode {
+    background-color: #f0f0f0 !important;
+    color: #1a1a1a !important;
+}
+
+body.light-mode .admin-container {
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+}
+
+body.light-mode .show-item {
+    background: #e0e0e0 !important;
+    color: #000 !important;
+}
+
+header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 15px 25px; 
+    border-bottom: 2px solid red; 
+}
+
+body.light-mode header {
+    background-color: #fff;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-rezim { 
+    background-color: #ff0000; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    cursor: pointer; 
+    border-radius: 4px; 
+}
+
+.nav-button { 
+    background: transparent; 
+    border: 1px solid white; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+body.light-mode .nav-button {
+    border-color: #1a1a1a;
+    color: #1a1a1a;
+}
+
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    padding: 40px; 
+}
+
+.card { 
+    border: 2px solid white; 
+    background: #000; 
+    overflow: hidden; 
+}
+
+body.light-mode .card {
+    border-color: #ccc;
+    background: #fff;
+}
+
+.card img { 
+    width: 100%; 
+    height: 250px; 
+    object-fit: cover; 
+    display: block; 
+}
+
+.info-bar { 
+    display: flex; 
+    justify-content: space-around; 
+    background: black; 
+    padding: 10px 0; 
+    font-size: 0.8rem; 
+    color: white;
+}
+
+body.light-mode .info-bar {
+    background: #eee;
+    color: #000;
+}
+
+.filter-section { 
+    padding: 20px 40px; 
+}
+
+#search { 
+    padding: 12px; 
+    width: 100%; 
+    max-width: 400px; 
+    background: #333; 
+    color: white; 
+    border: 1px solid red; 
+    border-radius: 4px;
+}
+
+body.light-mode #search {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ccc !important;
+}
+
+input[type="text"], 
+input[type="number"] {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #333;
+    color: #fff;
+}
+
+body.light-mode input[type="text"], 
+body.light-mode input[type="number"] {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ccc !important;
+}
+
+#submit-btn {
+    background: #ff0000;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
